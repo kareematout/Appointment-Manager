@@ -1,8 +1,9 @@
 package obj;
 import java.time.LocalDate;
+import java.util.Objects;
 
 //Appointment Class
-public class Appointment {
+public abstract class Appointment implements Comparable<Appointment> {
 
     //private instance variables
     private String description;
@@ -48,7 +49,39 @@ public class Appointment {
      * @param date the date that will be checked
      * @return true or false depending on if the appointment occurs on a given date
      */
-    public boolean occursOn(LocalDate date) {
+    protected boolean inBetween(LocalDate date) {
         return ((date.isAfter(startDate) || date.isEqual(startDate)) && (date.isBefore(endDate) || date.isEqual(endDate)));
+    }
+
+    public abstract boolean occursOn(LocalDate date);
+
+    @Override
+    public String toString() {
+        return String.format("Description: %s | Starts: %s | Ends: %s", description, startDate, endDate);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Appointment that)) return false;
+        return Objects.equals(this.toString(), that.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(description, startDate, endDate);
+    }
+
+    @Override
+    public int compareTo(Appointment o) {
+        if(!startDate.equals(o.startDate)) {
+            return startDate.compareTo(o.startDate);
+        }
+        else if (!endDate.equals(o.endDate)) {
+            return endDate.compareTo(o.endDate);
+        }
+        else {
+            return description.compareTo(o.description);
+        }
     }
 }
