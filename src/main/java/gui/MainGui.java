@@ -2,13 +2,14 @@ package gui;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import obj.Appointment;
+import obj.AppointmentManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class MainGui {
     private JPanel panel;
-    private JRadioButton displaAllBtn;
+    private JRadioButton displayAllBtn;
     private JRadioButton displayAppointmentsBtn;
     private JComboBox sortBox;
     private JList displayList;
@@ -17,10 +18,10 @@ public class MainGui {
     private JButton editBtn;
     private DatePicker datePicker;
 
-    //private AppointmentManager manager;
+    private AppointmentManager manager;
 
     public MainGui() {
-        //manager = new AppointmentManager();
+        manager = new AppointmentManager();
         addBtn.addActionListener(this::addAppointment);
         editBtn.addActionListener(this::addAppointment);
         deleteBtn.addActionListener(this::deleteAppointment);
@@ -33,9 +34,9 @@ public class MainGui {
             dialog.setVisible(true);
             Appointment appointment = dialog.getAppointment();
             if (e.getSource().equals(addBtn)) {
-                //manager.add(appointment);
-                //Appointment [] appointments = manager.getAppointmentsOn(null, null);
-                //displayList.setListData(appointments);
+                manager.add(appointment);
+                Appointment [] appointments = manager.getAppointmentsOn(null, null);
+                displayList.setListData(appointments);
             }
 
             else if (e.getSource().equals(editBtn))

@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="d7dc6" class="javax.swing.JRadioButton" binding="displaAllBtn">
+      <component id="d7dc6" class="javax.swing.JRadioButton" binding="displayAllBtn">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
