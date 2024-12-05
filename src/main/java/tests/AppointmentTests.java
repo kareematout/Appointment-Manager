@@ -23,7 +23,18 @@ public class AppointmentTests {
     private LocalDate start1;
     private LocalDate end1;
 
-    // Sets the test start date, and test end date
+    /*
+        Milestone 2 Tests:
+
+        Tests occursOn method for:
+        - before start date
+        - on start date
+        - between start and end date
+        - on end date
+        - after end date
+     */
+
+    // Sets up start date, end date, and appointment types for tests
     @Before
     public void setup() {
         start1 = LocalDate.of(2024, 10, 10);
@@ -76,6 +87,16 @@ public class AppointmentTests {
        assertFalse(onetime.occursOn(date));
        assertFalse(monthly.occursOn(date));
     }
+
+    /*
+        Milestone 3 Tests:
+
+        Tests the following:
+        - constructor of OnetimeAppointment class (making sure end date is same as start date)
+        - occursOn for OnetimeAppointment class
+        - occursOn for MonthlyAppointment class
+        - comparison of Appointment objects using array to see if result is same as expected
+     */
 
     // Tests constructor of OnetimeAppointment class
     @Test
