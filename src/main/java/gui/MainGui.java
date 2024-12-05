@@ -43,11 +43,9 @@ public class MainGui {
     private void UpdateListBox(ActionEvent e){
         String sortBoxValue = (String) sortBox.getSelectedItem();
         if (displayAllBtn.isSelected() && sortBoxValue.equals("Date")) {
-            //Comparator<Appointment> comparator = Comparator.comparing(Appointment::getStartDate);
-            Appointment [] appointments = manager.getAppointmentsOn(null, Comparator.comparing(Appointment::getStartDate));
-            for (Appointment appointment : appointments) {
-                System.out.println(appointment);
-            }
+            Comparator<Appointment> comparator = Comparator.comparing(Appointment::getStartDate)
+                    .thenComparing(Appointment::getEndDate).thenComparing(Appointment::getDescription);
+            Appointment [] appointments = manager.getAppointmentsOn(null, comparator);
             displayList.setListData(appointments);
             displayList.revalidate();
             displayList.repaint();
@@ -55,11 +53,9 @@ public class MainGui {
             ErrorMessageLbl.setForeground(Color.GREEN);
 
         } else if (displayAllBtn.isSelected() && sortBoxValue.equals("Description")){
-            //Comparator<Appointment> comparator = Comparator.comparing(Appointment::getDescription);
-            Appointment [] appointments = manager.getAppointmentsOn(null, Comparator.comparing(Appointment::getDescription));
-            for (Appointment appointment : appointments) {
-                System.out.println(appointment);
-            }
+            Comparator<Appointment> comparator = Comparator.comparing(Appointment::getDescription)
+                    .thenComparing(Appointment::getStartDate).thenComparing(Appointment::getEndDate);
+            Appointment [] appointments = manager.getAppointmentsOn(null, comparator);
             displayList.setListData(appointments);
             displayList.revalidate();
             displayList.repaint();
@@ -67,22 +63,18 @@ public class MainGui {
             ErrorMessageLbl.setForeground(Color.GREEN);
 
         } else if (displayAppointmentsBtn.isSelected() && sortBoxValue.equals("Date") && datePicker.getDate() != null){
-            //Comparator<Appointment> comparator = Comparator.comparing(Appointment::getStartDate);
-            Appointment[] appointments = manager.getAppointmentsOn(datePicker.getDate(), Comparator.comparing(Appointment::getStartDate));
-            for (Appointment appointment : appointments) {
-                System.out.println(appointment);
-            }
+            Comparator<Appointment> comparator = Comparator.comparing(Appointment::getStartDate)
+                    .thenComparing(Appointment::getEndDate).thenComparing(Appointment::getDescription);
+            Appointment[] appointments = manager.getAppointmentsOn(datePicker.getDate(), comparator);
             displayList.setListData(appointments);
             displayList.revalidate();
             displayList.repaint();
             ErrorMessageLbl.setText("Displaying by 'Date'");
             ErrorMessageLbl.setForeground(Color.GREEN);
         } else if (displayAppointmentsBtn.isSelected() && sortBoxValue.equals("Description") && datePicker.getDate() != null){
-            //Comparator<Appointment> comparator = Comparator.comparing(Appointment::getDescription);
-            Appointment[] appointments = manager.getAppointmentsOn(datePicker.getDate(), Comparator.comparing(Appointment::getDescription));
-            for (Appointment appointment : appointments) {
-                System.out.println(appointment);
-            }
+            Comparator<Appointment> comparator = Comparator.comparing(Appointment::getDescription)
+                    .thenComparing(Appointment::getStartDate).thenComparing(Appointment::getEndDate);
+            Appointment[] appointments = manager.getAppointmentsOn(datePicker.getDate(), comparator);
             displayList.setListData(appointments);
             displayList.revalidate();
             displayList.repaint();
@@ -151,7 +143,6 @@ public class MainGui {
 
 
     private void deleteAppointment(ActionEvent e){
-        System.out.println("Delete btn clicked");
         Appointment appointmentDelete = displayList.getSelectedValue();
         if (appointmentDelete != null) {
             manager.delete(appointmentDelete);
@@ -164,14 +155,12 @@ public class MainGui {
             ErrorMessageLbl.setForeground(Color.RED);
         }
 
-
-
     }
 
 
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Application App");
+        JFrame frame = new JFrame("Appointment App");
         frame.setContentPane(new MainGui().panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
