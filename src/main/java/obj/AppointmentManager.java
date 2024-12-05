@@ -66,7 +66,12 @@ public class AppointmentManager {
                 }
             }
         }
-        return temp.toArray(new Appointment[0]);
+        Appointment[] sortedAppointments = new Appointment[temp.size()];
+        int index = 0;
+        while (!temp.isEmpty()) {
+            sortedAppointments[index++] = temp.poll();
+        }
+        return sortedAppointments;
     }
 
     /**
