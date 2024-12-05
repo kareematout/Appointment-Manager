@@ -92,6 +92,7 @@ public class AppointmentManagerTest {
         appointmentManager.add(onetime1);
         appointmentManager.delete(onetime1);
 
+        // Expect false
         assertFalse(appointmentManager.getAppointments().contains(daily1));
         assertFalse(appointmentManager.getAppointments().contains(monthly1));
         assertFalse(appointmentManager.getAppointments().contains(onetime1));
@@ -121,6 +122,7 @@ public class AppointmentManagerTest {
         appointmentManager.add(onetime1);
         appointmentManager.update(onetime1, onetime2);
 
+        // AppointmentManager should contain new appointment object but not old one
         assertTrue(appointmentManager.getAppointments().contains(daily2));
         assertFalse(appointmentManager.getAppointments().contains(daily1));
 
@@ -131,7 +133,7 @@ public class AppointmentManagerTest {
         assertFalse(appointmentManager.getAppointments().contains(onetime1));
     }
 
-    // Testing getAppointmentsOn method with null
+    // Testing getAppointmentsOn method
     @Test
     public void testNullGetAppointmentsOn() {
         AppointmentManager appointmentManager = new AppointmentManager();
@@ -143,6 +145,7 @@ public class AppointmentManagerTest {
 
         Appointment[] result = appointmentManager.getAppointmentsOn(null, comparator);
 
+        // Expect it to be sorted by description
         assertArrayEquals(new Appointment[]{daily1,monthly1,onetime1}, result);
     }
 
@@ -165,7 +168,7 @@ public class AppointmentManagerTest {
         assertArrayEquals(new Appointment[]{daily1,monthly1,onetime1}, result);
     }
 
-    // Test getAppointmentsOn method to ensuring proper sorting
+    // Test getAppointmentsOn method
     @Test
     public void testGetAppointmentsOnSort() {
         AppointmentManager appointmentManager = new AppointmentManager();
@@ -186,60 +189,34 @@ public class AppointmentManagerTest {
         assertArrayEquals(new Appointment[]{daily1,monthly1,onetime1,daily3}, result);
     }
 
-    /*
+    // Test to sort by Date
     @Test
-    public void testGetAppointmentsOnSort2() {
-        AppointmentManager appointmentManager = new AppointmentManager();
-        Comparator<Appointment> comparator = Comparator.comparing(Appointment::getDescription);
-
-        OnetimeAppointment onetime1 = new OnetimeAppointment("a", start1);
-        OnetimeAppointment onetime2 = new OnetimeAppointment("b", start1);
-        OnetimeAppointment onetime3 = new OnetimeAppointment("c", start1);
-        DailyAppointment d = new DailyAppointment("a", start1, end1);
-
-        appointmentManager.add(onetime1);
-        appointmentManager.add(onetime3);
-        appointmentManager.add(onetime2);
-        appointmentManager.add(d);
-
-
-        Appointment[] result = appointmentManager.getAppointmentsOn(start1, comparator);
-
-        for (Appointment appointment : result) {
-            System.out.println(appointment);
-        }
-
-        assertArrayEquals(new Appointment[]{onetime1,d,onetime2,onetime3}, result);
-    }
-
-    @Test
-
-    public void testGetAppointmentsOnSort3() {
+    public void testGetAppointmentsOnSortByDate() {
         AppointmentManager appointmentManager = new AppointmentManager();
         Comparator<Appointment> comparator = Comparator.comparing(Appointment::getStartDate);
 
-        LocalDate start3 = LocalDate.of(2020, 3, 6);
-        LocalDate start4 = LocalDate.of(2020, 4, 3);
+        LocalDate startDate1 = LocalDate.of(2020, 3, 6);
+        LocalDate endDate1 = LocalDate.of(2020, 4, 5);
 
-        OnetimeAppointment onetime1 = new OnetimeAppointment("a", start1);
-        OnetimeAppointment onetime2 = new OnetimeAppointment("a", start2);
-        OnetimeAppointment onetime3 = new OnetimeAppointment("a", start3);
-        DailyAppointment d = new DailyAppointment("a", start4, end1);
+        LocalDate startDate2 = LocalDate.of(2020, 4, 3);
+        LocalDate endDate2 = LocalDate.of(2020, 4, 6);
+
+        LocalDate startDate3 = LocalDate.of(2020, 4, 5);
+
+        OnetimeAppointment onetime1 = new OnetimeAppointment("a", startDate1);
+        OnetimeAppointment onetime2 = new OnetimeAppointment("a", startDate2);
+        OnetimeAppointment onetime3 = new OnetimeAppointment("a",startDate3);
+        DailyAppointment daily1 = new DailyAppointment("a", startDate1, endDate1);
+        MonthlyAppointment monthly1 = new MonthlyAppointment("a", startDate2, endDate2);
 
         appointmentManager.add(onetime1);
         appointmentManager.add(onetime3);
         appointmentManager.add(onetime2);
-        appointmentManager.add(d);
-
+        appointmentManager.add(daily1);
+        appointmentManager.add(monthly1);
 
         Appointment[] result = appointmentManager.getAppointmentsOn(null, comparator);
 
-        for (Appointment appointment : result) {
-            System.out.println(appointment);
-        }
-
-        //assertArrayEquals(new Appointment[]{onetime1,d,onetime2,onetime3}, result);
+        assertArrayEquals(new Appointment[]{onetime1,daily1,onetime2,monthly1,onetime3}, result);
     }
-
-    */
 }
